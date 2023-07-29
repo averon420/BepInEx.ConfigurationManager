@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
+using BepInEx.Unity.IL2CPP;
 
 namespace ConfigurationManager
 {
@@ -12,7 +13,7 @@ namespace ConfigurationManager
     {
         public ConfigEntryBase Entry { get; }
 
-        public ConfigSettingEntry(ConfigEntryBase entry, BaseUnityPlugin owner)
+        public ConfigSettingEntry(ConfigEntryBase entry, BasePlugin owner)
         {
             Entry = entry;
 

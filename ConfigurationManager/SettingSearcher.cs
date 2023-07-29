@@ -87,7 +87,7 @@ namespace ConfigurationManager
         /// <summary>
         /// Get entries for all settings of a plugin
         /// </summary>
-        private static IEnumerable<ConfigSettingEntry> GetPluginConfig(BaseUnityPlugin plugin)
+        private static IEnumerable<ConfigSettingEntry> GetPluginConfig(BasePlugin plugin)
         {
             return plugin.Config.Select(kvp => new ConfigSettingEntry(kvp.Value, plugin));
         }

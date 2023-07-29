@@ -1,5 +1,4 @@
-﻿// Made by MarC0 / ManlyMarco
-// Copyright 2018 GNU General Public License v3.0
+﻿// Made by MarC0 / ManlyMarco Copyright 2018 GNU General Public License v3.0
 
 using System;
 using System.Collections.Generic;
@@ -12,16 +11,17 @@ using BepInEx.Logging;
 using UnityEngine;
 using BepInEx.Configuration;
 using ConfigurationManager.Utilities;
+using BepInEx.Unity.IL2CPP;
 
 namespace ConfigurationManager
 {
     /// <summary>
-    /// An easy way to let user configure how a plugin behaves without the need to make your own GUI. The user can change any of the settings you expose, even keyboard shortcuts.
-    /// https://github.com/ManlyMarco/BepInEx.ConfigurationManager
+    /// An easy way to let user configure how a plugin behaves without the need to make your own
+    /// GUI. The user can change any of the settings you expose, even keyboard shortcuts. https://github.com/ManlyMarco/BepInEx.ConfigurationManager
     /// </summary>
     [BepInPlugin(GUID, "Configuration Manager", Version)]
     [Browsable(false)]
-    public class ConfigurationManager : BaseUnityPlugin
+    public class ConfigurationManager : BasePlugin
     {
         /// <summary>
         /// GUID of this plugin
@@ -33,7 +33,7 @@ namespace ConfigurationManager
         /// </summary>
         public const string Version = "17.1";
 
-        internal static new ManualLogSource Logger;
+        internal new static ManualLogSource Logger;
         private static SettingFieldDrawer _fieldDrawer;
 
         private static readonly Color _advancedSettingColor = new Color(1f, 0.95f, 0.67f, 1f);
@@ -49,7 +49,8 @@ namespace ConfigurationManager
         public event EventHandler<ValueChangedEventArgs<bool>> DisplayingWindowChanged;
 
         /// <summary>
-        /// Disable the hotkey check used by config manager. If enabled you have to set <see cref="DisplayingWindow"/> to show the manager.
+        /// Disable the hotkey check used by config manager. If enabled you have to set
+        /// <see cref="DisplayingWindow"/> to show the manager.
         /// </summary>
         public bool OverrideHotkey;
 
@@ -85,7 +86,7 @@ namespace ConfigurationManager
         private readonly ConfigEntry<bool> _pluginConfigCollapsedDefault;
         private bool _showDebug;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public ConfigurationManager()
         {
             Logger = base.Logger;
@@ -140,8 +141,9 @@ namespace ConfigurationManager
         }
 
         /// <summary>
-        /// Register a custom setting drawer for a given type. The action is ran in OnGui in a single setting slot.
-        /// Do not use any Begin / End layout methods, and avoid raising height from standard.
+        /// Register a custom setting drawer for a given type. The action is ran in OnGui in a
+        /// single setting slot. Do not use any Begin / End layout methods, and avoid raising height
+        /// from standard.
         /// </summary>
         public static void RegisterCustomSettingDrawer(Type settingType, Action<SettingEntryBase> onGuiDrawer)
         {
@@ -155,7 +157,8 @@ namespace ConfigurationManager
         }
 
         /// <summary>
-        /// Rebuild the setting list. Use to update the config manager window if config settings were removed or added while it was open.
+        /// Rebuild the setting list. Use to update the config manager window if config settings
+        /// were removed or added while it was open.
         /// </summary>
         public void BuildSettingList()
         {
@@ -336,7 +339,8 @@ namespace ConfigurationManager
                         }
                         catch (ArgumentException)
                         {
-                            // Needed to avoid GUILayout: Mismatched LayoutGroup.Repaint crashes on large lists
+                            // Needed to avoid GUILayout: Mismatched LayoutGroup.Repaint crashes on
+                            // large lists
                         }
 
                         if (plugin.Height == 0 && Event.current.type == EventType.Repaint)
@@ -350,7 +354,8 @@ namespace ConfigurationManager
                         }
                         catch (ArgumentException)
                         {
-                            // Needed to avoid GUILayout: Mismatched LayoutGroup.Repaint crashes on large lists
+                            // Needed to avoid GUILayout: Mismatched LayoutGroup.Repaint crashes on
+                            // large lists
                         }
                     }
 
@@ -364,7 +369,8 @@ namespace ConfigurationManager
                 }
                 else
                 {
-                    // Always leave some space in case there's a dropdown box at the very bottom of the list
+                    // Always leave some space in case there's a dropdown box at the very bottom of
+                    // the list
                     GUILayout.Space(70);
                 }
             }
@@ -591,7 +597,7 @@ namespace ConfigurationManager
             }
         }
 
-        private void Start()
+        private void Load()
         {
             var background = new Texture2D(1, 1, TextureFormat.ARGB32, false);
             background.SetPixel(0, 0, Color.black);

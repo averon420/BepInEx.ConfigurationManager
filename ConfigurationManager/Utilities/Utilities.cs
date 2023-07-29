@@ -1,5 +1,4 @@
-﻿// Made by MarC0 / ManlyMarco
-// Copyright 2018 GNU General Public License v3.0
+﻿// Made by MarC0 / ManlyMarco Copyright 2018 GNU General Public License v3.0
 
 using BepInEx;
 using System;
@@ -11,6 +10,7 @@ using System.Reflection;
 using BepInEx.Logging;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using BepInEx.Unity.IL2CPP;
 
 namespace ConfigurationManager.Utilities
 {
@@ -34,9 +34,10 @@ namespace ConfigurationManager.Utilities
             return result;
         }
 
-        // Search for instances of BaseUnityPlugin to also find dynamically loaded plugins. Doing this makes checking Chainloader.PluginInfos redundant.
-        // Have to use FindObjectsOfType(Type) instead of FindObjectsOfType<T> because the latter is not available in some older unity versions.
-        public static BaseUnityPlugin[] FindPlugins() => Array.ConvertAll(Object.FindObjectsOfType(typeof(BaseUnityPlugin)), input => (BaseUnityPlugin)input);
+        // Search for instances of BasePlugin to also find dynamically loaded plugins. Doing this
+        // makes checking Chainloader.PluginInfos redundant. Have to use FindObjectsOfType(Type)
+        // instead of FindObjectsOfType<T> because the latter is not available in some older unity versions.
+        public static BasePlugin[] FindPlugins() => Array.ConvertAll(Object.FindObjectsOfType(typeof(BasePlugin)), input => (BasePlugin)input);
 
         public static string AppendZero(this string s)
         {
@@ -100,8 +101,8 @@ namespace ConfigurationManager.Utilities
             if (TryOpen(latestLog)) return;
 
             candidates.Clear();
-            // Fall back to more aggresive brute search
-            // BepInEx 5.x log file, can be "LogOutput.log.1" or higher if multiple game instances run
+            // Fall back to more aggresive brute search BepInEx 5.x log file, can be
+            // "LogOutput.log.1" or higher if multiple game instances run
             candidates.AddRange(Directory.GetFiles(rootDir, "LogOutput.log*", SearchOption.AllDirectories));
             candidates.AddRange(Directory.GetFiles(rootDir, "output_log.txt", SearchOption.AllDirectories));
             latestLog = candidates.Where(File.Exists).OrderByDescending(File.GetLastWriteTimeUtc).FirstOrDefault();
@@ -110,7 +111,7 @@ namespace ConfigurationManager.Utilities
             throw new FileNotFoundException("No log files were found");
         }
 
-        public static string GetWebsite(BaseUnityPlugin bepInPlugin)
+        public static string GetWebsite(BasePlugin bepInPlugin)
         {
             if (bepInPlugin == null) return null;
             try
